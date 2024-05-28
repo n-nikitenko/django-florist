@@ -16,10 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import RedirectView
 
 from catalog.apps import CatalogConfig
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('catalog.urls', namespace=CatalogConfig.name)),
+    path('favicon.ico', RedirectView.as_view(url='/static/images/favicon.ico')),
 ]
