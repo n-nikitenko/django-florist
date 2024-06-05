@@ -23,4 +23,4 @@ class Command(BaseCommand):
         Product.objects.all().delete()
         Category.objects.all().delete()
 
-        management.call_command('loaddata', self.path, verbosity=0)
+        management.call_command(loaddata.Command(), self.path, verbosity=0)
