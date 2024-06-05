@@ -57,15 +57,15 @@
                                     src="/static/images/logo.png" alt=""></a></div>
                         </header>
 
-<!--                        <div class="search-form-wrapper clearfix">-->
-<!--                            <form id="search-form" action="search.php" method="GET" accept-charset="utf-8"-->
-<!--                                  class="navbar-form">-->
-<!--                                <input type="text" name="s" value='Search'-->
-<!--                                       onBlur="if(this.value=='') this.value='Search'"-->
-<!--                                       onFocus="if(this.value =='Search' ) this.value=''">-->
-<!--                                <a href="#" onClick="document.getElementById('search-form').submit()"></a>-->
-<!--                            </form>-->
-<!--                        </div>-->
+                        <!--                        <div class="search-form-wrapper clearfix">-->
+                        <!--                            <form id="search-form" action="search.php" method="GET" accept-charset="utf-8"-->
+                        <!--                                  class="navbar-form">-->
+                        <!--                                <input type="text" name="s" value='Search'-->
+                        <!--                                       onBlur="if(this.value=='') this.value='Search'"-->
+                        <!--                                       onFocus="if(this.value =='Search' ) this.value=''">-->
+                        <!--                                <a href="#" onClick="document.getElementById('search-form').submit()"></a>-->
+                        <!--                            </form>-->
+                        <!--                        </div>-->
 
                         <div class="menu_wrapper">
                             <div class="arr_left"></div>
@@ -129,13 +129,22 @@
                                         </figure>
 
                                         <h3>Florist</h3>
+                                        {% for contacts in data %}
+                                        <p>Адрес {{ forloop.counter }}: {{ contacts.address }}<br>
+                                            {% if contacts.phone %}
+                                            Телефон: {{ contacts.phone }}<br>
+                                            {% endif %}
 
+                                            E-mail: <a href="#">{{ contacts.email }}</a>
+                                        </p>
+                                        {% empty %}
                                         <p>
                                             8901 Marmora Road,<br>
                                             Glasgow, D04 89GR.<br>
                                             Telephone: +1 800 123 1234<br>
                                             E-mail: <a href="#">mail@bteamny.com</a>
                                         </p>
+                                        {% endfor %}
 
                                     </div>
 
