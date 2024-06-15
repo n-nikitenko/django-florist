@@ -1,5 +1,5 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 
 from catalog.models import Product, Contacts
@@ -40,8 +40,8 @@ def prices(request):
 
 
 def product(request, pk: int):
-    product = Product.objects.get(pk=pk)
-    return render(request, 'catalog/product.html', context={'product': product, 'title': 'prices'})
+    product_obj = get_object_or_404(Product, pk=pk)
+    return render(request, 'catalog/product.html', context={'product': product_obj, 'title': 'prices'})
 
 
 def new_product(request):
