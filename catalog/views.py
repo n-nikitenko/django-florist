@@ -1,8 +1,9 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 from catalog.models import Product, Contacts
+from catalog.forms import ProductForm
 
 
 # Create your views here.
@@ -43,6 +44,18 @@ def product(request, pk: int):
     return render(request, 'catalog/product.html', context={'product': product, 'title': 'prices'})
 
 
+def new_product(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/thanks/")
+        else:
+            return render(request, 'catalog/new_product.html', context={'form': form})
+    form = ProductForm()
+    return render(request, 'catalog/new_product.html', context={'form': form})
+
+
 def gallery(request):
     return render(request, 'catalog/gallery.html', context={'title': 'gallery'})
 
@@ -53,3 +66,7 @@ def about(request):
 
 def not_found(request):
     return render(request, 'catalog/404.html', context={'title': '404'})
+
+
+def thanks(request):
+    return render(request, 'catalog/thanks.html')
