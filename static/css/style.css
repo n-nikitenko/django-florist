@@ -356,7 +356,7 @@ transition: all 0.3s ease-out; -moz-transition: all 0.3s ease-out; -webkit-trans
 	
 }
 /* Landscape phone to portrait tablet */
-@media (max-width: 767px) {	
+@media (max-width: 1000px) {
 	body{padding-left: 0; padding-right: 0;}
 	.container{width: 440px;}
 
@@ -396,3 +396,5 @@ transition: all 0.3s ease-out; -moz-transition: all 0.3s ease-out; -webkit-trans
 	.page-404 .txt2{font-size: 50px; line-height: 50px;}
 	
 }
+
+.thumb4 figure img.img-200 { width: 200px; height: 200px;}
