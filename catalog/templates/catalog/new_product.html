@@ -1,0 +1,27 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-md-center">
+    <div class="col-6 col">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Создание товара:</h5>
+                <form method="post"  enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="control-group {%if field.errors %}error{%endif%}">
+
+                    {{ field.label_tag }} {{ field }}
+                </div>
+                {% endfor %}
+                    <button type="submit" class="btn btn-primary form-control">Создать</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+{% endblock %}
