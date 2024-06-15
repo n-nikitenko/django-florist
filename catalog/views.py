@@ -21,24 +21,30 @@ def contacts(request):
         message = request.POST.get('content')
         print(f'You have new message from {name}({email}): {message}')
         return HttpResponse('OK')
-    return render(request, 'catalog/contacts.html', context={'data': list(data)})
+    return render(request, 'catalog/contacts.html', context={'data': list(data), 'title': 'contacts'})
 
 
 def services(request):
-    return render(request, 'catalog/services.html')
+    return render(request, 'catalog/services.html', context={'title': 'services'})
 
 
 def prices(request):
-    return render(request, 'catalog/prices.html')
+    products = Product.objects.all()
+    return render(request, 'catalog/prices.html', context={'products': products, 'title': 'prices'})
+
+
+def product(request, pk: int):
+    product = Product.objects.get(pk=pk)
+    return render(request, 'catalog/product.html', context={'product': product, 'title': 'prices'})
 
 
 def gallery(request):
-    return render(request, 'catalog/gallery.html')
+    return render(request, 'catalog/gallery.html', context={'title': 'gallery'})
 
 
 def about(request):
-    return render(request, 'catalog/about.html')
+    return render(request, 'catalog/about.html', context={'title': 'about us'})
 
 
 def not_found(request):
-    return render(request, 'catalog/404.html')
+    return render(request, 'catalog/404.html', context={'title': '404'})

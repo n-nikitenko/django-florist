@@ -1,0 +1,28 @@
+{% extends 'catalog/base.html' %}
+{% load media_path %}
+
+{% block content %}
+
+<div class="container">
+
+<div class="row justify-content-md-center">
+    <div class="col-6">
+    <div class="card">
+        <img src="{{ product.preview | media_path }}" alt="" class="card-img-top" alt="...">
+
+    </div>
+</div>
+    <div class="col-6 col">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ product.title }}</h5>
+            <p class="card-text">{{ product.description }}</p>
+            <h3>Цена: {{ product.price }} руб.</h3>
+        </div>
+    </div>
+    </div>
+
+
+</div>
+</div>
+{% endblock %}
