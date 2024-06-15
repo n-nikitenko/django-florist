@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.http import HttpResponse
 
@@ -30,7 +31,11 @@ def services(request):
 
 def prices(request):
     products = Product.objects.all()
-    return render(request, 'catalog/prices.html', context={'products': products, 'title': 'prices'})
+    paginator = Paginator(products, 1)
+
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'catalog/prices.html', context={'title': 'prices', "page_obj": page_obj})
 
 
 def product(request, pk: int):

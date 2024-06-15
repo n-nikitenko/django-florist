@@ -398,3 +398,5 @@ transition: all 0.3s ease-out; -moz-transition: all 0.3s ease-out; -webkit-trans
 }
 
 .thumb4 figure img.img-200 { width: 200px; height: 200px;}
+
+.pagination .page-item .page-link {color: #a497a5}
