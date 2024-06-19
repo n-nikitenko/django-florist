@@ -12,6 +12,7 @@
 5. Просмотр страницы товара
 6. Удаление товара
 7. Создание, просмотр, редактирование, удаление статей в блоге.
+8. Когда статья достигает 100 просмотров, на почту отправляется поздравление.
 
 ## Установка и использование
 
@@ -38,6 +39,9 @@ POSTGRES_DB=postgres
 
 DJANGO_DEBUG=True
 DJANGO_SECRET_KEY=your_secret_key
+
+DJANGO_EMAIL_HOST_USER = 'your_email@yandex.ru'
+DJANGO_EMAIL_HOST_PASSWORD = 'your_yandex_smtp_password'
 ```
 3. выполнить миграции командой
 ```commandline
