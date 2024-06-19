@@ -41,7 +41,7 @@ def prices(request):
 
 def product(request, pk: int):
     product_obj = get_object_or_404(Product, pk=pk)
-    return render(request, 'catalog/product.html', context={'product': product_obj, 'title': 'prices'})
+    return render(request, 'catalog/product.html', context={'product': product_obj})
 
 
 def new_product(request):
