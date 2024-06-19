@@ -11,6 +11,7 @@ django = "4.x"
 python-dotenv = "^1.0.1"
 psycopg2-binary = "^2.9.9"
 pillow = "^10.3.0"
+pytils = "^0.4.1"
 
 
 [build-system]
