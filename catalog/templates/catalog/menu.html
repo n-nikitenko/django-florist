@@ -10,20 +10,20 @@
             </button>
             <div class="collapse navbar-collapse navbar-collapse_" id="navbarTogglerDemo03">
                 <ul class="navbar-nav navbar-nav_ nav">
-                    <li><a href="/">home page</a></li>
-                    <li class="sub-menu sub-menu-1"><a href="/about">about us</a>
+                    <li><a href="{% url 'catalog:home' %}">home page</a></li>
+                    <li class="sub-menu sub-menu-1"><a href="{% url 'catalog:about' %}">about us</a>
                         <ul>
-                            <li><a href="/about">who we are</a></li>
-                            <li><a href="/about">our mission</a></li>
-                            <li><a href="/about">history</a></li>
-                            <li><a href="/404">404 page not found</a></li>
+                            <li><a href="{% url 'catalog:about' %}">who we are</a></li>
+                            <li><a href="{% url 'catalog:about' %}">our mission</a></li>
+                            <li><a href="{% url 'catalog:about' %}">history</a></li>
+                            <li><a href="{% url 'catalog:404' %}">404 page not found</a></li>
                         </ul>
                     </li>
-                    <li><a href="/services">services</a></li>
-                    <li><a href="/gallery">gallery</a></li>
+                    <li><a href="{% url 'catalog:services' %}">services</a></li>
+                    <li><a href="{% url 'catalog:gallery' %}">gallery</a></li>
                     <!--  class="active"-->
-                    <li><a href="/prices">prices</a></li>
-                    <li><a href="/contacts">contacts</a></li>
+                    <li><a href="{% url 'catalog:prices' %}">prices</a></li>
+                    <li><a href="{% url 'catalog:contacts' %}">contacts</a></li>
                 </ul>
             </div>
         </div>
