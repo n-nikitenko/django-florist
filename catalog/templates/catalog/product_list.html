@@ -1,0 +1,128 @@
+{% extends 'catalog/base.html' %}
+{% load media_path %}
+{% block content %}
+<div class="row">
+    <div class="span12">
+
+        <nav aria-label="Products navigation">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+                <li class="page-item"><a class="page-link"
+                                         href="?page={{ page_obj.previous_page_number }}" aria-label="Previous"
+                title="Назад">
+        <span aria-hidden="true">&laquo;</span>
+      </a></li>
+                {% endif %}
+
+                <li class="page-item current"><span class="current page-link"> Страница {{ page_obj.number }} из
+                    {{ page_obj.paginator.num_pages }}</span></li>
+                {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}"
+                                         aria-label="Next" title="Вперёд">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+                </li>
+<!--                <li class="page-item"><a class="page-link"-->
+                <!--                                         href="?page={{ page_obj.paginator.num_pages }}">Последняя</a></li>-->
+                {% endif %}
+            </ul>
+        </nav>
+        <h1>Our Prices</h1>
+        <a href="{% url 'catalog:new_product' %}" class="button2">создать</a>
+        <div class="row">
+            {% for product in page_obj %}
+            <div class="span4">
+                <div class="thumb4">
+                    <div class="thumbnail clearfix">
+                        <figure><img src="{{ product.preview|media_path }}" alt="" class="img-200">
+                        </figure>
+                        <div class="caption">
+                            <h3>{{ product.title }}</h3>
+                            <p>{{ product.description|truncatechars:100 }}</p>
+                            <h3>Цена: {{ product.price }} руб.</h3>
+                            <div class="line2"></div>
+                            <div class="text-right"><a href="{% url 'catalog:product_view' product.id %}" class="button2">подробнее</a>
+                            </div>
+                            <div class="text-right"><a href="{% url 'catalog:product_edit' product.pk %}" class="button2">редактировать</a>
+                                 <div class="text-right"><a href="{% url 'catalog:product_delete' product.pk %}" class="button2">удалить</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if forloop.counter|divisibleby:3 %}
+        </div>
+        <div class="row">
+            {% endif %}
+            {% empty %}
+            <div class="span3">
+                <p>Oops! List of products in database is empty.</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="line1"></div>
+
+
+    </div>
+</div>
+<div class="row">
+    <div class="span6">
+
+        <div class="vl1">
+
+            <h2>Category</h2>
+
+            <div class="row">
+                <div class="span3">
+                    <ul class="ul1">
+                        <li><a href="#">Quisque nullatibulum libero</a></li>
+                        <li><a href="#">Scelerisque eget, malesuada at</a></li>
+                        <li><a href="#">Vivamus eget niiam cursus leo</a></li>
+                        <li><a href="#">Nulla facilisinean nec eros</a></li>
+                        <li><a href="#">Vestibulum ante ipsum</a></li>
+                    </ul>
+                </div>
+                <div class="span3">
+
+                    <div class="pad_right20">
+
+                        <ul class="ul1">
+                            <li><a href="#">Quisque nullatibulum libero</a></li>
+                            <li><a href="#">Scelerisque eget, malesuada at</a></li>
+                            <li><a href="#">Vivamus eget niiam cursus leo</a></li>
+                            <li><a href="#">Nulla facilisinean nec eros</a></li>
+                            <li><a href="#">Vestibulum ante ipsum</a></li>
+                        </ul>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="span6">
+
+        <h2>Special Offer</h2>
+
+        <div class="thumb5">
+            <div class="thumbnail clearfix">
+                <figure><img src="/static/images/prices10.jpg" alt=""></figure>
+                <div class="caption">
+                    <h3>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod
+                        tempor </h3>
+                    <p>Phasellus porta. Fusce suscipit varius mi. Cum sociis natoque penatibus
+                        et magnis dis parturientdiculus mus. Nulla dui. Fusce feugiat malesuada
+                        odio. Morbi nunc </p>
+                    <div class="line2"></div>
+                    <div class="text-right"><a href="#" class="button2">read more</a></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
