@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from catalog.models import Category, Product, Contacts
+from catalog.models import Category, Product, Contacts, Version
 
 
 # Register your models here.
@@ -20,3 +20,10 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(Contacts)
 class ContactsAdmin(admin.ModelAdmin):
     list_display = ('address', 'email', 'phone')
+
+
+@admin.register(Version)
+class VersionAdmin(admin.ModelAdmin):
+    list_display = ('product', 'number', 'title', 'is_current')
+    list_filter = ('product', 'number', 'title', 'is_current')
+    search_fields = ('product', 'number', 'title', 'is_current')

@@ -1,10 +1,11 @@
+from django.forms import inlineformset_factory, BaseFormSet
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 
-from catalog.models import Product, Contacts
-from catalog.forms import ProductForm
+from catalog.models import Product, Contacts, Version
+from catalog.forms import ProductForm, VersionForm, BaseVersionFormSet
 
 
 def home(request):
@@ -39,6 +40,11 @@ class ProductListView(ListView):
     model = Product
     paginate_by = 2
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data["title"] = 'products'
+        return context_data
+
 
 class ProductDetailView(DetailView):
     model = Product
@@ -53,6 +59,31 @@ class ProductCreateView(CreateView):
 class ProductUpdateView(UpdateView):
     model = Product
     form_class = ProductForm
+
+    def get_context_data(self, **kwargs):
+
+        context_data = super().get_context_data(**kwargs)
+        if 'formset' in kwargs:
+            context_data['formset'] = kwargs['formset']
+        else:
+            VersionFormset = inlineformset_factory(Product, Version, VersionForm, extra=1, formset=BaseVersionFormSet)
+            if self.request.method == 'POST':
+                context_data['formset'] = VersionFormset(self.request.POST, self.request.FILES, instance=self.object)
+            elif self.request.method == 'GET':
+                context_data['formset'] = VersionFormset(instance=self.object)
+        context_data['errors'] = context_data['formset'].non_form_errors()
+        return context_data
+
+    def form_valid(self, form):
+        context_data = self.get_context_data()
+        formset = context_data['formset']
+        if form.is_valid() and formset.is_valid():
+            self.object = form.save()
+            formset.instance = self.object
+            formset.save()
+            return super().form_valid(form)
+        else:
+            return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
     def get_success_url(self):
         return reverse('catalog:product_view', args=[self.object.pk])
