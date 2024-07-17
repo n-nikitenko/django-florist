@@ -18,6 +18,11 @@
             <h5 class="card-title">{{ object.title }}</h5>
             <p class="card-text">{{ object.description }}</p>
             <h3>Цена: {{ object.price }} руб.</h3>
+             {% if object.active_version %}
+            <h3>Версия: {{ object.active_version }}</h3>
+            {% else %}
+            <h3>Нет активной версии</h3>
+            {% endif %}
             <div class="btn-group">
                 <a class="btn btn-primary" href="{% url 'catalog:product_edit' object.id%}">Редактировать</a>
                 <a class="btn btn-primary" href="{% url 'catalog:product_delete' object.id%}">Удалить</a>
