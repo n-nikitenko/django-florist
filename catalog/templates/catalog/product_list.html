@@ -44,6 +44,9 @@
                             {% if product.active_version %}
                             <h3>Версия: {{ product.active_version }}</h3>
                             {% else %}
+                            {% if product.creator %}
+                            <h3>Автор: {{ product.creator }}</h3>
+                            {% endif %}
                             <h3>Нет активной версии</h3>
                             {% endif %}
                             <div class="line2"></div>

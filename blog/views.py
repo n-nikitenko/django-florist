@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from pytils.translit import slugify
@@ -6,7 +7,7 @@ from blog.forms import ArticleForm
 from blog.models import Article
 
 
-class ArticleListView(ListView):
+class ArticleListView(LoginRequiredMixin,ListView):
     model = Article
     paginate_by = 2
 
@@ -15,7 +16,7 @@ class ArticleListView(ListView):
         return queryset.filter(is_published=True)
 
 
-class ArticleDetailView(DetailView):
+class ArticleDetailView(LoginRequiredMixin, DetailView):
     model = Article
 
     def get_object(self, queryset=None):
@@ -25,7 +26,7 @@ class ArticleDetailView(DetailView):
         return article
 
 
-class ArticleCreateView(CreateView):
+class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
     form_class = ArticleForm
 
@@ -40,7 +41,7 @@ class ArticleCreateView(CreateView):
         return reverse('blog:article_detail', args=[self.object.pk])
 
 
-class ArticleUpdateView(UpdateView):
+class ArticleUpdateView(LoginRequiredMixin, UpdateView):
     model = Article
     form_class = ArticleForm
     success_url = reverse_lazy('blog:articles')
@@ -49,6 +50,6 @@ class ArticleUpdateView(UpdateView):
         return reverse('blog:article_detail', args=[self.object.pk])
 
 
-class ArticleDeleteView(DeleteView):
+class ArticleDeleteView(LoginRequiredMixin, DeleteView):
     model = Article
     success_url = reverse_lazy('blog:articles')
