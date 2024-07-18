@@ -23,6 +23,9 @@
             {% else %}
             <h3>Нет активной версии</h3>
             {% endif %}
+            {% if object.creator %}
+            <h3>Автор: {{ object.creator }}</h3>
+            {% endif %}
             <div class="btn-group">
                 <a class="btn btn-primary" href="{% url 'catalog:product_edit' object.id%}">Редактировать</a>
                 <a class="btn btn-primary" href="{% url 'catalog:product_delete' object.id%}">Удалить</a>

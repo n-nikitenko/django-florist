@@ -22,11 +22,13 @@ from django.views.generic import RedirectView
 
 from blog.apps import BlogConfig
 from catalog.apps import CatalogConfig
+from users.apps import UsersConfig
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('catalog.urls', namespace=CatalogConfig.name)),
     path('', include('blog.urls', namespace=BlogConfig.name)),
+    path('users/', include('users.urls', namespace=UsersConfig.name)),
     path('favicon.ico', RedirectView.as_view(url='/static/images/favicon.ico')),
 ]
 

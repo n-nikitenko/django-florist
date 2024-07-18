@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import User
+
 
 class Category(models.Model):
     title = models.TextField(verbose_name="Наименование")
@@ -27,7 +29,7 @@ class Product(models.Model):
     description = models.TextField(null=True, blank=True, verbose_name="Описание")
     preview = models.ImageField(verbose_name="Изображение")
     category = models.ForeignKey(
-        Category, on_delete=models.SET_NULL, null=True,blank=True, verbose_name="Категория"
+        Category, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Категория"
     )
     price = models.DecimalField(
         max_digits=6,
@@ -50,6 +52,9 @@ class Product(models.Model):
     def active_version(self):
         return self.versions.filter(is_current=True).first()
 
+    creator = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, verbose_name="Создатель",
+                                related_name="user_products")
+
     class Meta:
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
@@ -64,8 +69,6 @@ class Contacts(models.Model):
 
     def __str__(self):
         return f"{self.address}\nТелефон: {self.phone}\nE-mail: {self.email}"
-
-
 
     class Meta:
         verbose_name = "Контакты"

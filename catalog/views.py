@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import inlineformset_factory, BaseFormSet
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -36,7 +37,7 @@ def services(request):
     return render(request, 'catalog/services.html', context={'title': 'services'})
 
 
-class ProductListView(ListView):
+class ProductListView(LoginRequiredMixin, ListView):
     model = Product
     paginate_by = 2
 
@@ -50,13 +51,21 @@ class ProductDetailView(DetailView):
     model = Product
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:thanks')
 
+    def form_valid(self, form):
+        if form.is_valid():
+            product = form.save()
+            product.creator = self.request.user
+            product.save()
 
-class ProductUpdateView(UpdateView):
+        return super().form_valid(form)
+
+
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
 
@@ -89,7 +98,7 @@ class ProductUpdateView(UpdateView):
         return reverse('catalog:product_view', args=[self.object.pk])
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('catalog:prices')
 
