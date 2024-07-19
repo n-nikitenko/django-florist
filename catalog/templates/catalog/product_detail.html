@@ -23,12 +23,26 @@
             {% else %}
             <h3>Нет активной версии</h3>
             {% endif %}
+            {% if object.is_published %}
+            <h3>Опубликован</h3>
+            {% else %}
+            <h3>Не опубликован</h3>
+            {% endif %}
+            {% if object.category %}
+            <h3>Категория: {{ object.category }}</h3>
+            {% else %}
+            <h3>Без категории</h3>
+            {% endif %}
             {% if object.creator %}
             <h3>Автор: {{ object.creator }}</h3>
             {% endif %}
             <div class="btn-group">
+                {% if user == object.creator or user.is_moderator or user.is_staff %}
                 <a class="btn btn-primary" href="{% url 'catalog:product_edit' object.id%}">Редактировать</a>
+                {% endif %}
+                {% if user.is_staff %}
                 <a class="btn btn-primary" href="{% url 'catalog:product_delete' object.id%}">Удалить</a>
+                {% endif %}
             </div>
         </div>
     </div>

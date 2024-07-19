@@ -22,10 +22,12 @@
             {% endif %}
             <p class="card-text">{{ object.content }}</p>
             <h3>Кол-во просмотров: {{ object.views_count }}</h3>
+            {% if user.is_content_manager  %}
             <div class="btn-group">
                 <a class="btn btn-primary" href="{% url 'blog:edit_article' object.id %}">Редактировать</a>
                 <a class="btn btn-primary" href="{% url 'blog:delete_article' object.id %}">Удалить</a>
             </div>
+            {% endif %}
         </div>
     </div>
     </div>

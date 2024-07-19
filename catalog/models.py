@@ -45,6 +45,8 @@ class Product(models.Model):
         verbose_name="Дата/время обновления", auto_now=True
     )
 
+    is_published = models.BooleanField(default=False, verbose_name="Признак публикации")
+
     def __str__(self):
         return f"{self.title}"
 
@@ -57,7 +59,13 @@ class Product(models.Model):
 
     class Meta:
         verbose_name = "Продукт"
+        ordering = ["created_at"]
         verbose_name_plural = "Продукты"
+        permissions = [
+            ('can_change_description', 'может менять описание'),
+            ('can_change_category', 'может менять категорию'),
+            ('can_change_is_published', 'может менять признак публикации')
+        ]
 
 
 class Contacts(models.Model):

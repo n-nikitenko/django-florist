@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from pytils.translit import slugify
@@ -7,7 +8,7 @@ from blog.forms import ArticleForm
 from blog.models import Article
 
 
-class ArticleListView(LoginRequiredMixin,ListView):
+class ArticleListView(LoginRequiredMixin, ListView):
     model = Article
     paginate_by = 2
 
@@ -26,9 +27,15 @@ class ArticleDetailView(LoginRequiredMixin, DetailView):
         return article
 
 
-class ArticleCreateView(LoginRequiredMixin, CreateView):
+class ContentManagerRequiredMixin:
+    def get_form_class(self):
+        if self.request.user.is_content_manager:
+            return ArticleForm
+        raise PermissionDenied
+
+
+class ArticleCreateView(LoginRequiredMixin, ContentManagerRequiredMixin, CreateView):
     model = Article
-    form_class = ArticleForm
 
     def form_valid(self, form):
         if form.is_valid():
@@ -41,9 +48,8 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
         return reverse('blog:article_detail', args=[self.object.pk])
 
 
-class ArticleUpdateView(LoginRequiredMixin, UpdateView):
+class ArticleUpdateView(LoginRequiredMixin, ContentManagerRequiredMixin, UpdateView):
     model = Article
-    form_class = ArticleForm
     success_url = reverse_lazy('blog:articles')
 
     def get_success_url(self):
