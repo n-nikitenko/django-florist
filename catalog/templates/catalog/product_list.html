@@ -53,12 +53,17 @@
                             <div class="text-right"><a href="{% url 'catalog:product_view' product.id %}"
                                                        class="button2">подробнее</a>
                             </div>
+                            {% if user == product.creator or user.is_moderator or user.is_staff %}
                             <div class="text-right"><a href="{% url 'catalog:product_edit' product.pk %}"
                                                        class="button2">редактировать</a>
-                                <div class="text-right"><a href="{% url 'catalog:product_delete' product.pk %}"
-                                                           class="button2">удалить</a>
-                                </div>
                             </div>
+                            {% endif %}
+                            {% if user.is_staff %}
+                            <div class="text-right"><a href="{% url 'catalog:product_delete' product.pk %}"
+                                                       class="button2">удалить</a>
+                            </div>
+                            {% endif %}
+
                         </div>
                     </div>
                 </div>

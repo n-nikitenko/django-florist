@@ -19,3 +19,11 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+
+    @property
+    def is_moderator(self):
+        return self.groups.filter(name="moderators").exists()
+
+    @property
+    def is_content_manager(self):
+        return self.groups.filter(name="content-managers").exists()

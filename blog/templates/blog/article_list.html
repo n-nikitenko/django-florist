@@ -27,7 +27,9 @@
             </ul>
         </nav>
         <h1>Статьи</h1>
+        {% if user.is_content_manager %}
         <a href="{% url 'blog:create_article' %}" class="button2">создать</a>
+        {% endif %}
         <div class="row">
             {% for article in page_obj %}
             <div class="span4">
@@ -42,12 +44,16 @@
                             <div class="text-right"><a href="{% url 'blog:article_detail' article.id %}"
                                                        class="button2">подробнее</a>
                             </div>
+                            {% if user.is_content_manager  %}
                             <div class="text-right"><a href="{% url 'blog:edit_article' article.id %}"
                                                        class="button2">редактировать</a>
-                                <div class="text-right"><a href="{% url 'blog:delete_article' article.id %}"
-                                                           class="button2">удалить</a>
-                                </div>
                             </div>
+                            {% endif %}
+                            {% if user.is_content_manager %}
+                            <div class="text-right"><a href="{% url 'blog:delete_article' article.id %}"
+                                                       class="button2">удалить</a>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -57,7 +63,7 @@
                 {% endif %}
                 {% empty %}
                 <div class="span3">
-                    <p>Oops! List of articles in database is empty.</p>
+                    <p>Ой! Здесь пока нет ни одной статьи. Обратитесь к контент-менеджеру.</p>
                 </div>
                 {% endfor %}
             </div>

@@ -4,7 +4,7 @@ from blog.models import Article
 
 
 @admin.register(Article)
-class ProductAdmin(admin.ModelAdmin):
+class ArticleAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'content', 'is_published')
     list_filter = ('is_published',)
     search_fields = ('title', 'content',)

@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.forms import inlineformset_factory, BaseFormSet
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -6,7 +7,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 
 from catalog.models import Product, Contacts, Version
-from catalog.forms import ProductForm, VersionForm, BaseVersionFormSet
+from catalog.forms import ProductForm, VersionForm, BaseVersionFormSet, ModeratorProductForm
 
 
 def home(request):
@@ -67,11 +68,20 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
-    form_class = ProductForm
+
+    def get_form_class(self):
+        user = self.request.user
+        if user.is_moderator:
+            return ModeratorProductForm
+        if user == self.object.creator:
+            return ProductForm
+        raise PermissionDenied
 
     def get_context_data(self, **kwargs):
 
         context_data = super().get_context_data(**kwargs)
+        if self.request.user.is_moderator:
+            return context_data
         if 'formset' in kwargs:
             context_data['formset'] = kwargs['formset']
         else:
@@ -84,8 +94,10 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         return context_data
 
     def form_valid(self, form):
+        if self.request.user.is_moderator:
+            return super().form_valid(form)
         context_data = self.get_context_data()
-        formset = context_data['formset']
+        formset = context_data.get('formset')
         if form.is_valid() and formset.is_valid():
             self.object = form.save()
             formset.instance = self.object
