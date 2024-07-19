@@ -74,7 +74,13 @@ class ProductForm(StyleFormMixin, ModelForm):
 
     class Meta:
         model = Product
-        fields = ["title", "description", "preview", "price", "category"]
+        fields = ["title", "description", "preview", "price", "category", "is_published"]
+
+
+class ModeratorProductForm(ProductForm):
+    class Meta:
+        model = Product
+        fields = ["description", "category", "is_published"]
 
 
 class VersionForm(StyleFormMixin, ModelForm):

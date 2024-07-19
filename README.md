@@ -53,6 +53,7 @@ python3 ./manage.py migrate
 
 ```
 python ./manage.py fill
+python ./manage.py fillgroups
 ```
 
 5. запустить сервер:
