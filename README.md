@@ -41,8 +41,12 @@ POSTGRES_DB=postgres
 DJANGO_DEBUG=True
 DJANGO_SECRET_KEY=your_secret_key
 
-DJANGO_EMAIL_HOST_USER = 'your_email@yandex.ru'
-DJANGO_EMAIL_HOST_PASSWORD = 'your_yandex_smtp_password'
+DJANGO_EMAIL_HOST_USER='your_email@yandex.ru'
+DJANGO_EMAIL_HOST_PASSWORD='your_yandex_smtp_password'
+
+
+CACHE_ENABLED=True
+REDIS_LOCATION=redis://127.0.0.1:6379
 ```
 3. выполнить миграции командой
 ```commandline

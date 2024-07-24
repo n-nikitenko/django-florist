@@ -6,8 +6,9 @@ from django.http import HttpResponse
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 
-from catalog.models import Product, Contacts, Version
+from catalog.models import Product, Contacts, Version, Category
 from catalog.forms import ProductForm, VersionForm, BaseVersionFormSet, ModeratorProductForm
+from catalog.services import get_categories_from_cache
 
 
 def home(request):
@@ -48,6 +49,19 @@ class ProductListView(LoginRequiredMixin, ListView):
         return context_data
 
 
+class CategoryListView(LoginRequiredMixin, ListView):
+    model = Category
+
+
+class CategoryDetailView(DetailView):
+    model = Category
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['categories'] = get_categories_from_cache()
+        return context_data
+
+
 class ProductDetailView(DetailView):
     model = Product
 
@@ -73,7 +87,7 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         user = self.request.user
         if user.is_moderator:
             return ModeratorProductForm
-        if user == self.object.creator:
+        if user == self.object.creator or user.is_staff:
             return ProductForm
         raise PermissionDenied
 
