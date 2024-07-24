@@ -52,6 +52,9 @@ class ProductListView(LoginRequiredMixin, ListView):
 class CategoryListView(LoginRequiredMixin, ListView):
     model = Category
 
+    def get_queryset(self):
+        return get_categories_from_cache()
+
 
 class CategoryDetailView(DetailView):
     model = Category
