@@ -1,0 +1,20 @@
+{% extends 'catalog/base.html' %}
+
+{% block links %}
+<script type="text/javascript" src="/static/js/touchTouch.jquery.js"></script>
+<link rel="stylesheet" href="/static/css/isotope.css" type="text/css" media="screen">
+{% endblock %}
+{% load media_path %}
+{% block content %}
+<div class="row">
+    <div id="isotope-options">
+        <ul id="isotope-filters" class="clearfix">
+            {% for category in object_list %}
+            <li><a href="{% url 'catalog:category_view' category.id %}" data-filter=".isotope-filter1">
+                {{ category.title }}
+            </a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
